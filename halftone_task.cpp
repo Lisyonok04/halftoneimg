@@ -10,6 +10,17 @@
 
 using namespace std;
 
+template<typename T>
+std::uniform_int_distribution<T> Dice(std::true_type)
+{
+	return std::uniform_int_distribution<T>(std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
+}
+template<typename T>
+std::uniform_real_distribution<T> Dice(std::false_type)
+{
+	return std::uniform_real_distribution<T>(std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
+}
+
 template <typename T>
 class HalftoneImg {
 private:
