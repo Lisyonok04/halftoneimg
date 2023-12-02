@@ -54,31 +54,3 @@ public:
 			}
 		}
 	}
-
-
-
-
-/*int ascii_normalize(int a)
-{
-    while (a > 255)
-        a -= 255;
-    while (a < 33)
-        a += 255 - 33;
-    return a;
-}
-
-void circle(int x, int y, int r)
-{
-    for (int i = 0; i <= 50; i++)
-    {
-        for (int j = 0; j <= 50; j++)
-        {
-            if (((x - i) * (x - i) + (y - j) * (y - j)) <= (r * r))
-                cout << setw(2) << " ";
-            else
-                cout << setw(2) << char(2 * i + j + 33);
-        }
-        cout << '\n';
-    }
-
-}*/
