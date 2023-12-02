@@ -5,7 +5,6 @@
 
 
 using namespace std;
-#define EPSILON 0.0001
 
 TEST(ImgTests, Constructor) {
     HalftoneImg<bool> h1(2, 2, false);
