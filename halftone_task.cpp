@@ -21,6 +21,34 @@ std::uniform_real_distribution<T> Dice(std::false_type)
 	return std::uniform_real_distribution<T>(std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
 }
 
+template<typename T>
+T random()
+{
+	std::random_device randomDevice;
+	std::mt19937_64 generator(randomDevice());
+	auto dice = Dice<T>(std::integral_constant<bool, std::numeric_limits<T>::is_integer>());
+	return dice(generator);
+}
+
+template<>
+char random<char>()
+{
+	std::random_device rand;
+	std::mt19937 gen(rand());
+	std::uniform_int_distribution <> distr('a', 'z');
+	return (char)distr(gen);
+}
+
+template<>
+bool random<bool>()
+{
+	std::random_device rand;
+	std::mt19937 gen(rand());
+	std::uniform_int_distribution <> distr(0, 1);
+	return distr(gen);
+}
+
+
 template <typename T>
 class HalftoneImg {
 private:
@@ -64,4 +92,22 @@ public:
 				}
 			}
 		}
+	}
+
+	friend std::ostream& operator<< (std::ostream& out, const HalftoneImg<T>& h)
+	{
+		for (int i = 0; i < h._m; i++)
+		{
+			for (int j = 0; j < h._n; j++)
+			{
+				std::cout << h._matrix[i][j] << " ";
+			}
+			cout << endl;
+		}
+		;
+		return out;
+	}
+	T& operator()(int i, int j) const
+	{
+		return _matrix[i][j];
 	}
