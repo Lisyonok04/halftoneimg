@@ -94,6 +94,15 @@ public:
 		}
 	}
 
+	~HalftoneImg()
+	{
+		for (int i = 0; i < _n; i++)
+		{
+			delete[] _matrix[i];
+		}
+		delete[] _matrix;
+	}
+
 	friend std::ostream& operator<< (std::ostream& out, const HalftoneImg<T>& h)
 	{
 		for (int i = 0; i < h._n; i++)
@@ -226,3 +235,22 @@ public:
 		return h;
 	}
 
+	friend bool operator!=(HalftoneImg<T> first, HalftoneImg<T> second)
+	{
+		return !(first == second);
+	}
+
+	void swap(HalftoneImg& rhs) {
+		for (int i = 0; i < _n; i++)
+		{
+			std::swap(_matrix[i], rhs._matrix[i]);
+		}
+	}
+
+	HalftoneImg& operator=(HalftoneImg rhs)
+	{
+		if (_n != rhs._n || _m != rhs._m)
+			throw runtime_error("In operator = : different size");
+		rhs.swap(*this);
+		return *this;
+	}
