@@ -19,3 +19,29 @@ TEST(HalftoneImageTests, SwapCheck) {
     cout << h2;
 }
 
+TEST(HalftoneImageTests, Check1) {
+    HalftoneImg<short> h(3, 3, false);
+    h(0, 1) = 6;
+    EXPECT_EQ(6, h(0, 1));
+}
+
+TEST(HalftoneImageTests, OperatorCheck1) {
+    short* data1 = new short[4] {1, 2, 3, 4};
+    HalftoneImg<short> h1(2, 2, data1);
+    short* data2 = new short[4] {-5, -6, -7, -8};
+    HalftoneImg<short> h2(2, 2, data2);
+    short* data3 = new short[4] {-4, -4, -4, -4};
+    HalftoneImg<short> h3(2, 2, data3);
+    EXPECT_TRUE(h3 == h1 + h2);
+}
+
+TEST(HalftoneImageTests, OperatorCheck2) {
+    short* data1 = new short[4] {1, 2, 3, 4};
+    HalftoneImg<short> h1(2, 2, data1);
+    short* data2 = new short[4] {-5, -6, -7, -8};
+    HalftoneImg<short> h2(2, 2, data2);
+    short* data4 = new short[4] {-5, -12, -21, -32};
+    HalftoneImg<short> h4(2, 2, data4);
+    EXPECT_TRUE(h4 == h1 * h2);
+}
+ 
