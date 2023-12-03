@@ -96,9 +96,9 @@ public:
 
 	friend std::ostream& operator<< (std::ostream& out, const HalftoneImg<T>& h)
 	{
-		for (int i = 0; i < h._m; i++)
+		for (int i = 0; i < h._n; i++)
 		{
-			for (int j = 0; j < h._n; j++)
+			for (int j = 0; j < h._m; j++)
 			{
 				std::cout << h._matrix[i][j] << " ";
 			}
@@ -110,4 +110,44 @@ public:
 	T& operator()(int i, int j) const
 	{
 		return _matrix[i][j];
+	}
+
+	friend HalftoneImg operator * (const HalftoneImg& first, const HalftoneImg& other)
+	{
+		if (first._n != other._n || first._m != other._m)
+			throw runtime_error("In operator * : different size");
+		HalftoneImg<T> h(first._n, first._m, false);
+		for (int i = 0; i < first._n; i++)
+		{
+			for (int j = 0; j < first._m; j++)
+			{
+				if (first._matrix[i][j] * other._matrix[i][j] > std::numeric_limits<T>::max())
+					h._matrix[i][j] = std::numeric_limits<T>::max();
+				else if (first._matrix[i][j] * other._matrix[i][j] < std::numeric_limits<T>::min())
+					h._matrix[i][j] = std::numeric_limits<T>::min();
+				else
+					h._matrix[i][j] = first._matrix[i][j] * other._matrix[i][j];
+			}
+		}
+		return h;
+	}
+
+	friend HalftoneImg<T> operator+(const HalftoneImg<T>& first, const HalftoneImg<T>& other)
+	{
+		if (first._n != other._n || first._m != other._m)
+			throw runtime_error("In operator + : different size");
+		HalftoneImg<T> h(first._n, first._m, false);
+		for (int i = 0; i < first._n; i++)
+		{
+			for (int j = 0; j < first._m; j++)
+			{
+				if (first._matrix[i][j] + other._matrix[i][j] > std::numeric_limits<T>::max())
+					h._matrix[i][j] = std::numeric_limits<T>::max();
+				else if (first._matrix[i][j] + other._matrix[i][j] < std::numeric_limits<T>::min())
+					h._matrix[i][j] = std::numeric_limits<T>::min();
+				else
+					h._matrix[i][j] = first._matrix[i][j] + other._matrix[i][j];
+			}
+		}
+		return h;
 	}
