@@ -103,6 +103,15 @@ public:
 		delete[] _matrix;
 	}
 
+	int get_n()
+	{
+		return _n;
+	}
+	int get_m()
+	{
+		return _m;
+	}
+
 	friend std::ostream& operator<< (std::ostream& out, const HalftoneImg<T>& h)
 	{
 		for (int i = 0; i < h._n; i++)
@@ -254,3 +263,20 @@ public:
 		rhs.swap(*this);
 		return *this;
 	}
+
+	HalftoneImg(const HalftoneImg& other)
+	{
+		_n = other._n;
+		_m = other._m;
+		_matrix = new T * [_n];
+		for (int i = 0; i < _n; i++)
+		{
+			_matrix[i] = new T[_m];
+			for (int j = 0; j < _m; j++)
+			{
+				_matrix[i][j] = other._matrix[i][j];
+			}
+		}
+	}
+
+};
