@@ -280,3 +280,84 @@ public:
 	}
 
 };
+
+template <typename T>
+HalftoneImg<T> operator !(HalftoneImg<T> f)
+{
+	HalftoneImg<T> h(f.get_m(), f.get_n(), false);
+	for (int i = 0; i < f.get_m(); i++)
+	{
+		for (int j = 0; j < f.get_n(); j++)
+		{
+			h(i, j) = -1 * f(i, j);
+		}
+	}
+	return h;
+}
+
+template<>
+HalftoneImg<bool> operator !(HalftoneImg<bool> f)
+{
+	HalftoneImg<bool> h(f.get_m(), f.get_n(), false);
+	for (int i = 0; i < f.get_m(); i++)
+	{
+		for (int j = 0; j < f.get_n(); j++)
+		{
+			if (f(i, j) == 1)
+				h(i, j) = 0;
+			else
+				h(i, j) = 1;
+		}
+	}
+	return h;
+}
+
+template<>
+HalftoneImg<char> operator !(HalftoneImg<char> f)
+{
+	HalftoneImg<char> h(f.get_m(), f.get_n(), false);
+	for (int i = 0; i < f.get_m(); i++)
+	{
+		for (int j = 0; j < f.get_n(); j++)
+		{
+			h(i, j) = 'a' + ('z' - f(i, j));
+		}
+	}
+	return h;
+}
+
+template <typename T>
+bool operator==(HalftoneImg<T> a, HalftoneImg<T> b)
+{
+	if (a.get_m() != b.get_m() || a.get_n() != b.get_n())
+		return false;
+	for (int i = 0; i < a.get_m(); i++)
+	{
+		for (int j = 0; j < a.get_n(); j++)
+		{
+			if (a(i, j) != b(i, j))
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+template <>
+bool operator==(HalftoneImg<float> a, HalftoneImg<float> b)
+{
+	if (a.get_m() != b.get_m() || a.get_n() != b.get_n())
+		return false;
+	for (int i = 0; i < a.get_m(); i++)
+	{
+		for (int j = 0; j < a.get_n(); j++)
+		{
+			if (a(i, j) - b(i, j) > std::numeric_limits<float>::min())
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
