@@ -172,3 +172,57 @@ public:
 		return h;
 	}
 
+	friend HalftoneImg operator * (const HalftoneImg& first, T a)
+	{
+		HalftoneImg<T> h(first._n, first._m, false);
+		for (int i = 0; i < first._n; i++)
+		{
+			for (int j = 0; j < first._m; j++)
+			{
+				if (first._matrix[i][j] * a > std::numeric_limits<T>::max())
+					h._matrix[i][j] = std::numeric_limits<T>::max();
+				else if (first._matrix[i][j] * a < std::numeric_limits<T>::min())
+					h._matrix[i][j] = std::numeric_limits<T>::min();
+				else
+					h._matrix[i][j] = first._matrix[i][j] * a;
+			}
+		}
+		return h;
+	}
+
+	friend HalftoneImg<T> operator+(const HalftoneImg<T>& first, T a)
+	{
+		HalftoneImg<T> h(first._n, first._m, false);
+		for (int i = 0; i < first._n; i++)
+		{
+			for (int j = 0; j < first._m; j++)
+			{
+				if (first._matrix[i][j] + a > std::numeric_limits<T>::max())
+					h._matrix[i][j] = std::numeric_limits<T>::max();
+				else if (first._matrix[i][j] + a < std::numeric_limits<T>::min())
+					h._matrix[i][j] = std::numeric_limits<T>::min();
+				else
+					h._matrix[i][j] = first._matrix[i][j] + a;
+			}
+		}
+		return h;
+	}
+
+	friend HalftoneImg<T> operator-(const HalftoneImg<T>& first, T a)
+	{
+		HalftoneImg<T> h(first._n, first._n, false);
+		for (int i = 0; i < first._n; i++)
+		{
+			for (int j = 0; j < first._m; j++)
+			{
+				if (first._matrix[i][j] - a > std::numeric_limits<T>::max())
+					h._matrix[i][j] = std::numeric_limits<T>::max();
+				else if (first._matrix[i][j] - a < std::numeric_limits<T>::min())
+					h._matrix[i][j] = std::numeric_limits<T>::min();
+				else
+					h._matrix[i][j] = first._matrix[i][j] - a;
+			}
+		}
+		return h;
+	}
+
