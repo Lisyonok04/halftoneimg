@@ -376,13 +376,14 @@ public:
 	}
 };
 
-void circle(Point a) {
-	for (int i = 0; i <= a._x + a._y; i++) {
-		for (int j = 0; j <= a._x + a._y; j++) {
+template<typename T>
+void circle(HalftoneImg<T>&matrix, Point a) {
+	for (int i = 0; i <= matrix.get_n(); i++) {
+		for (int j = 0; j <= matrix.get_m(); j++) {
 			if (((a._x - i) * (a._x - i) + (a._y - j) * (a._y - j)) <= (a._r * a._r))
-				cout << setw(2) << " ";
+				cout << setw(2) << "%";
 			else
-				cout << setw(2) << char(2 * i + j + 33);
+				cout << setw(2) << "#";
 		}
 		cout << endl;
 	}
