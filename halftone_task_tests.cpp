@@ -45,3 +45,7 @@ TEST(HalftoneImageTests, OperatorCheck2) {
     EXPECT_TRUE(h4 == h1 * h2);
 }
  
+TEST(HalftoneImageTests, Circle1) {
+    circle(Point(100, 100, 10));
+    
+}
