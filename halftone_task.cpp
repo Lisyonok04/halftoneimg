@@ -378,12 +378,12 @@ public:
 
 template<typename T>
 void circle(HalftoneImg<T>&matrix, Point a) {
-	for (int i = 0; i <= matrix.get_n(); i++) {
-		for (int j = 0; j <= matrix.get_m(); j++) {
+	for (int i = 0; i < matrix.get_n(); i++) {
+		for (int j = 0; j < matrix.get_m(); j++) {
 			if (((a._x - i) * (a._x - i) + (a._y - j) * (a._y - j)) <= (a._r * a._r))
-				cout << setw(2) << "%";
+				cout << setw(2) << " ";
 			else
-				cout << setw(2) << "#";
+				cout << setw(2) << matrix(i, j);
 		}
 		cout << endl;
 	}
