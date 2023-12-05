@@ -46,8 +46,8 @@ TEST(HalftoneImageTests, OperatorCheck2) {
 }
  
 TEST(HalftoneImageTests, Circle1) {
-    short* data1 = new short[12] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
-    HalftoneImg<short> h1(3, 4, data1);
-    circle(h1, Point(0, 0, 3));
+    short* data1 = new short[90] {1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    HalftoneImg<short> h1(9, 9, data1);
+    circle(h1, Point(4, 5, 3));
     
 }
