@@ -5,6 +5,7 @@
 #include <ctime>
 #include <random>
 #include <limits>
+#include<iomanip>
 #include <iostream>
 
 
@@ -375,8 +376,7 @@ public:
 	}
 };
 
-template<typename T>
-void circle(HalftoneImg<T>& h, Point& a) {
+void circle(Point a) {
 	for (int i = 0; i <= a._x + a._y; i++) {
 		for (int j = 0; j <= a._x + a._y; j++) {
 			if (((a._x - i) * (a._x - i) + (a._y - j) * (a._y - j)) <= (a._r * a._r))
