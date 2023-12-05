@@ -46,6 +46,8 @@ TEST(HalftoneImageTests, OperatorCheck2) {
 }
  
 TEST(HalftoneImageTests, Circle1) {
-    circle(Point(100, 100, 10));
+    short* data1 = new short[12] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+    HalftoneImg<short> h1(3, 4, data1);
+    circle(h1, Point(0, 0, 3));
     
 }
