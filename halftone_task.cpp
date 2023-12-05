@@ -361,3 +361,29 @@ bool operator==(HalftoneImg<float> a, HalftoneImg<float> b)
 	}
 	return true;
 }
+
+class Point {
+public:
+	float _x;
+	float _y;
+	float _r;
+	Point(float x, float y, float r)
+	{
+		_x = x;
+		_y = y;
+		_r = r;
+	}
+};
+
+template<typename T>
+void circle(HalftoneImg<T>& h, Point& a) {
+	for (int i = 0; i <= a._x + a._y; i++) {
+		for (int j = 0; j <= a._x + a._y; j++) {
+			if (((a._x - i) * (a._x - i) + (a._y - j) * (a._y - j)) <= (a._r * a._r))
+				cout << setw(2) << " ";
+			else
+				cout << setw(2) << char(2 * i + j + 33);
+		}
+		cout << endl;
+	}
+}
