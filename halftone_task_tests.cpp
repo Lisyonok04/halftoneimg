@@ -51,3 +51,4 @@ TEST(HalftoneImageTests, Circle1) {
     circle(h1, Point(4, 5, 3));
     
 }
+
