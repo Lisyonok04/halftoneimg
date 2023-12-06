@@ -45,6 +45,29 @@ TEST(HalftoneImageTests, OperatorCheck2) {
     EXPECT_TRUE(h4 == h1 * h2);
 }
 
+TEST(HalftoneImageTests, OperatorCheck3) {
+    bool* data1 = new bool[4] {1, 0, 0, 1 };
+    HalftoneImg<bool> h1(2, 2, data1);
+    bool* data2 = new bool[4] {0, 1, 1, 0 };
+    HalftoneImg<bool> h2(2, 2, data2);
+    EXPECT_TRUE(h1 == !h2);
+}
+
+TEST(HalftoneImageTests, OperatorCheck4) {
+    float* data1 = new float[4] {1, 2, 3, 400};
+    HalftoneImg<float> h1(2, 2, data1);
+    HalftoneImg<float> h2 = !h1;
+    HalftoneImg<float> h3 = HalftoneImg<float>(2, 2, false);
+    EXPECT_EQ(h1 + h2, h3);
+}
+
+TEST(HalftoneImageTests, OperatorCheck5) {
+    char* data1 = new char[4] {'a', 'b', 'c', 'd' };
+    HalftoneImg<char> h10(2, 2, data1);
+    HalftoneImg<char> h11 = !h10;
+    EXPECT_EQ(h11, HalftoneImg<char>(2, 2, new char[4] {'z', 'y', 'x', 'w'}));
+}
+
 TEST(HalftoneImageTests, ExceptionCheck) {
     EXPECT_ANY_THROW(HalftoneImg<short> h(3, -2, false));
     EXPECT_ANY_THROW(HalftoneImg<short> h(-3, 4, true));
