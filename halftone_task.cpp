@@ -280,6 +280,20 @@ public:
 		}
 	}
 
+	float count_fill_factor()
+	{
+		double cff = 0;
+		float denominator = _m * _n * std::numeric_limits<T>::max();
+		for (int i = 0; i < _m; i++)
+		{
+			for (int j = 0; j < _n; j++)
+			{
+				cff += _matrix[i][j] / denominator;
+			}
+		}
+		return cff;
+	};
+
 };
 
 template <typename T>
