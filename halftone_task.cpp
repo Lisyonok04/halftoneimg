@@ -446,11 +446,11 @@ public:
 };
 
 template<typename T>
-void circle(HalftoneImg<T>&matrix, Point a) {
+void circle(HalftoneImg<T>&matrix, Point a, T x) {
 	for (int i = 0; i < matrix.get_n(); i++) {
 		for (int j = 0; j < matrix.get_m(); j++) {
 			if (((a._x - i) * (a._x - i) + (a._y - j) * (a._y - j)) <= (a._r * a._r))
-				matrix(i, j) = 1;
+				matrix(i, j) = x;
 		}
 	}
 	cout << matrix;
