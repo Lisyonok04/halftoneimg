@@ -38,6 +38,7 @@ TEST(HalftoneImageTests, OperatorCheck1) {
 TEST(HalftoneImageTests, OperatorCheck2) {
     short* data1 = new short[4] {1, 2, 3, 4};
     HalftoneImg<short> h1(2, 2, data1);
+    cout << 6 * h1 << endl;
     short* data2 = new short[4] {-5, -6, -7, -8};
     HalftoneImg<short> h2(2, 2, data2);
     short* data4 = new short[4] {-5, -12, -21, -32};
@@ -52,6 +53,7 @@ TEST(HalftoneImageTests, OperatorCheck3) {
     HalftoneImg<bool> h2(2, 2, data2);
     EXPECT_TRUE(h1 == !h2);
 }
+
 
 TEST(HalftoneImageTests, OperatorCheck4) {
     float* data1 = new float[4] {1, 2, 3, 400};
