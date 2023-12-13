@@ -12,43 +12,61 @@
 using namespace std;
 
 template<typename T>
-std::uniform_int_distribution<T> Dice(std::true_type)
+uniform_int_distribution<T> Dice(true_type)
 {
-	return std::uniform_int_distribution<T>(std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
+	return uniform_int_distribution<T>(numeric_limits<T>::min(), numeric_limits<T>::max());
 }
+
 template<typename T>
-std::uniform_real_distribution<T> Dice(std::false_type)
+uniform_real_distribution<T> Dice(false_type)
 {
-	return std::uniform_real_distribution<T>(std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
+	return uniform_real_distribution<T>(numeric_limits<T>::min(), numeric_limits<T>::max());
 }
 
 template<typename T>
 T random()
 {
-	std::random_device randomDevice;
-	std::mt19937_64 generator(randomDevice());
-	auto dice = Dice<T>(std::integral_constant<bool, std::numeric_limits<T>::is_integer>());
+	random_device randomDevice;
+	mt19937_64 generator(randomDevice());
+	auto dice = Dice<T>(integral_constant<bool, numeric_limits<T>::is_integer>());
 	return dice(generator);
 }
 
 template<>
 char random<char>()
 {
-	std::random_device rand;
-	std::mt19937 gen(rand());
-	std::uniform_int_distribution <> distr('a', 'z');
+	random_device rand;
+	mt19937 gen(rand());
+	uniform_int_distribution <> distr('a', 'z');
 	return (char)distr(gen);
+}
+
+template<>
+short random<short>()
+{
+	random_device rand;
+	mt19937 gen(rand());
+	uniform_int_distribution <> distr(-9, 9);
+	return distr(gen);
 }
 
 template<>
 bool random<bool>()
 {
-	std::random_device rand;
-	std::mt19937 gen(rand());
-	std::uniform_int_distribution <> distr(0, 1);
+	random_device rand;
+	mt19937 gen(rand());
+	uniform_int_distribution <> distr(0, 1);
 	return distr(gen);
 }
 
+template<>
+float random<float>()
+{
+	random_device rand;
+	mt19937 gen(rand());
+	uniform_real_distribution <> distr(-9, 9);
+	return distr(gen);
+}
 
 template <typename T>
 class HalftoneImg {
@@ -119,9 +137,9 @@ public:
 		{
 			for (int j = 0; j < h._m; j++)
 			{
-				std::cout << h._matrix[i][j] << " ";
+				out << h._matrix[i][j] << " ";
 			}
-			cout << endl;
+			out << endl;
 		}
 		;
 		return out;
@@ -163,7 +181,7 @@ public:
 				if (first._matrix[i][j] + other._matrix[i][j] > std::numeric_limits<T>::max())
 					h._matrix[i][j] = std::numeric_limits<T>::max();
 				else if (first._matrix[i][j] + other._matrix[i][j] < std::numeric_limits<T>::min())
-					h._matrix[i][j] = std::numeric_limits<T>::min();
+					h._matrix[i][j] = 0;
 				else
 					h._matrix[i][j] = first._matrix[i][j] + other._matrix[i][j];
 			}
@@ -209,6 +227,24 @@ public:
 		return h;
 	}
 
+	friend HalftoneImg operator * (T a, const HalftoneImg& first)
+	{
+		HalftoneImg<T> h(first._n, first._m, false);
+		for (int i = 0; i < first._n; i++)
+		{
+			for (int j = 0; j < first._m; j++)
+			{
+				if (first._matrix[i][j] * a > std::numeric_limits<T>::max())
+					h._matrix[i][j] = std::numeric_limits<T>::max();
+				else if (first._matrix[i][j] * a < std::numeric_limits<T>::min())
+					h._matrix[i][j] = std::numeric_limits<T>::min();
+				else
+					h._matrix[i][j] = first._matrix[i][j] * a;
+			}
+		}
+		return h;
+	}
+
 	friend HalftoneImg<T> operator+(const HalftoneImg<T>& first, T a)
 	{
 		HalftoneImg<T> h(first._n, first._m, false);
@@ -227,7 +263,43 @@ public:
 		return h;
 	}
 
+	friend HalftoneImg<T> operator+(T a, const HalftoneImg<T>& first)
+	{
+		HalftoneImg<T> h(first._n, first._m, false);
+		for (int i = 0; i < first._n; i++)
+		{
+			for (int j = 0; j < first._m; j++)
+			{
+				if (first._matrix[i][j] + a > std::numeric_limits<T>::max())
+					h._matrix[i][j] = std::numeric_limits<T>::max();
+				else if (first._matrix[i][j] + a < std::numeric_limits<T>::min())
+					h._matrix[i][j] = std::numeric_limits<T>::min();
+				else
+					h._matrix[i][j] = first._matrix[i][j] + a;
+			}
+		}
+		return h;
+	}
+
 	friend HalftoneImg<T> operator-(const HalftoneImg<T>& first, T a)
+	{
+		HalftoneImg<T> h(first._n, first._n, false);
+		for (int i = 0; i < first._n; i++)
+		{
+			for (int j = 0; j < first._m; j++)
+			{
+				if (first._matrix[i][j] - a > std::numeric_limits<T>::max())
+					h._matrix[i][j] = std::numeric_limits<T>::max();
+				else if (first._matrix[i][j] - a < std::numeric_limits<T>::min())
+					h._matrix[i][j] = std::numeric_limits<T>::min();
+				else
+					h._matrix[i][j] = first._matrix[i][j] - a;
+			}
+		}
+		return h;
+	}
+
+	friend HalftoneImg<T> operator-(T a, const HalftoneImg<T>& first)
 	{
 		HalftoneImg<T> h(first._n, first._n, false);
 		for (int i = 0; i < first._n; i++)
@@ -280,10 +352,10 @@ public:
 		}
 	}
 
-	float count_fill_factor()
+	double count_fill_factor()
 	{
 		double cff = 0;
-		float denominator = _m * _n * std::numeric_limits<T>::max();
+		float denominator = _m * _n * numeric_limits<T>::max();
 		for (int i = 0; i < _m; i++)
 		{
 			for (int j = 0; j < _n; j++)
@@ -359,23 +431,6 @@ bool operator==(HalftoneImg<T> a, HalftoneImg<T> b)
 	return true;
 }
 
-template <>
-bool operator==(HalftoneImg<float> a, HalftoneImg<float> b)
-{
-	if (a.get_m() != b.get_m() || a.get_n() != b.get_n())
-		return false;
-	for (int i = 0; i < a.get_m(); i++)
-	{
-		for (int j = 0; j < a.get_n(); j++)
-		{
-			if (a(i, j) - b(i, j) > std::numeric_limits<float>::min())
-			{
-				return false;
-			}
-		}
-	}
-	return true;
-}
 
 class Point {
 public:
@@ -395,10 +450,8 @@ void circle(HalftoneImg<T>&matrix, Point a) {
 	for (int i = 0; i < matrix.get_n(); i++) {
 		for (int j = 0; j < matrix.get_m(); j++) {
 			if (((a._x - i) * (a._x - i) + (a._y - j) * (a._y - j)) <= (a._r * a._r))
-				cout << setw(2) << " ";
-			else
-				cout << setw(2) << matrix(i, j);
+				matrix(i, j) = 1;
 		}
-		cout << endl;
 	}
+	cout << matrix;
 }
