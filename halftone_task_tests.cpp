@@ -94,7 +94,7 @@ TEST(HalftoneImageTests, CountFillFactorCheck) {
 TEST(HalftoneImageTests, Circle1) {
     short* data1 = new short[90] {1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     HalftoneImg<short> h1(9, 9, data1);
-    short x = 5;
+    short x = 0;
     circle(h1, Point(4, 5, 3), x);
     
 }
@@ -118,4 +118,11 @@ TEST(HalftoneImageTests, Circle4) {
     char x;
     x = ' ';
     circle(h1, Point(10, 15, 10), x);
+}
+
+TEST(HalftoneImageTests, Circle5) {
+    HalftoneImg<char> h1(30, 50, true);
+    char x;
+    x = ' ';
+    circle(h1, Point(30, 30, 30), x);
 }
