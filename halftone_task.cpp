@@ -209,6 +209,8 @@ public:
 		return h;
 	}
 
+	//Commutativity is being performed
+
 	friend HalftoneImg operator * (const HalftoneImg& first, T a)
 	{
 		HalftoneImg<T> h(first._n, first._m, false);
@@ -444,6 +446,8 @@ public:
 		_r = r;
 	}
 };
+
+//Added an additional parameter x, which fills the circle with a certain value
 
 template<typename T>
 void circle(HalftoneImg<T>&matrix, Point a, T x) {
